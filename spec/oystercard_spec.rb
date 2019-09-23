@@ -26,16 +26,16 @@ describe Oystercard do
       subject.top_up(Oystercard::MAX_BALANCE)
       expect { subject.top_up(20) }.to raise_error "You have exceeded the £#{Oystercard::MAX_BALANCE} limit"
     end
+# These tests no longer required as deduct method now private and tested within touch_out method
+    # describe '#deduct' do
+    #   it { is_expected.to respond_to(:deduct).with(1).argument }
 
-    describe '#deduct' do
-      it { is_expected.to respond_to(:deduct).with(1).argument }
+    #   it 'deducts 10 from the balance' do
+    #     subject.top_up(Oystercard::MAX_BALANCE)
+    #     expect{ subject.deduct(10) }.to change{ subject.balance }.by -10
+    #   end
 
-      it 'deducts 10 from the balance' do
-        subject.top_up(Oystercard::MAX_BALANCE)
-        expect{ subject.deduct(10) }.to change{ subject.balance }.by -10
-      end
-
-    end
+    # end
 
     describe '#in_journey?' do
 
@@ -58,7 +58,7 @@ describe Oystercard do
       end
 
       it 'raises error if balance is <£1' do
-        expect { subject.touch_in }.to raise_error "Your balance is below the minimum amount £#{MIN_BALANCE}"
+        expect { subject.touch_in }.to raise_error "Your balance is below the minimum amount £#{Oystercard::MIN_BALANCE}"
       end
 
     end
@@ -72,6 +72,12 @@ describe Oystercard do
         subject.touch_in
         subject.touch_out
         expect(subject.in_journey?).to eq false
+      end
+
+      it 'reduces the balance by £1' do
+        subject.top_up(10)
+        subject.touch_in
+        expect { subject.touch_out }.to change{ subject.balance }.by -Oystercard::MIN_BALANCE
       end
 
     end
