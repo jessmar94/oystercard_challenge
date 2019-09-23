@@ -26,6 +26,9 @@ describe Oystercard do
       subject.top_up(Oystercard::MAX_BALANCE)
       expect { subject.top_up(20) }.to raise_error "You have exceeded the £#{Oystercard::MAX_BALANCE} limit"
     end
+    
+  end
+
 # These tests no longer required as deduct method now private and tested within touch_out method
     # describe '#deduct' do
     #   it { is_expected.to respond_to(:deduct).with(1).argument }
@@ -81,7 +84,5 @@ describe Oystercard do
       end
 
     end
-
-  end
 
 end
