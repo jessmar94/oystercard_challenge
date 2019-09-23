@@ -35,6 +35,14 @@ describe Oystercard do
         expect{ subject.deduct(10) }.to change{ subject.balance }.by -10
       end
     end
+    
+    describe '#in_journey?' do
+      it { is_expected.to respond_to :in_journey? }
+    end
+
+      it 'should return true if in journey' do
+        expect(subject.in_journey?).to eq true
+      end
 
 
 
