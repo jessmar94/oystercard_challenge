@@ -34,20 +34,42 @@ describe Oystercard do
         subject.top_up(Oystercard::MAX_BALANCE)
         expect{ subject.deduct(10) }.to change{ subject.balance }.by -10
       end
-    end
-    
-    describe '#in_journey?' do
-      it { is_expected.to respond_to :in_journey? }
+
     end
 
-      it 'should return true if in journey' do
+    describe '#in_journey?' do
+
+      it { is_expected.to respond_to :in_journey? }
+
+      it 'starts not in a journey' do
+        expect(subject.in_journey?).to eq false
+      end
+
+    end
+
+    describe '#touch_in' do
+
+      it { is_expected.to respond_to :touch_in }
+
+      it 'recognises that the card has touched in and in journey' do
+        subject.touch_in
         expect(subject.in_journey?).to eq true
       end
 
+    end
 
+    describe '#touch_out' do
+
+      it { is_expected.to respond_to :touch_out }
+
+      it 'recognises that the card has touched out and is not in journey' do
+        subject.touch_in
+        subject.touch_out
+        expect(subject.in_journey?).to eq false
+      end
+
+    end
 
   end
-
-
 
 end

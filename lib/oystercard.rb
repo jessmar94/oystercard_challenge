@@ -7,6 +7,7 @@ class Oystercard
   def initialize
 
     @balance = 0
+    @in_use = false
 
   end
 
@@ -23,7 +24,15 @@ class Oystercard
   end
 
   def in_journey?
-    true
+    @in_use
+  end
+
+  def touch_in
+    @in_use = true
+  end
+
+  def touch_out
+    @in_use = false 
   end
 
 
