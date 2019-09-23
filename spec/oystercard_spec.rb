@@ -9,17 +9,24 @@ describe Oystercard do
   end
 
   describe '#top_up' do
-  it { is_expected.to respond_to :top_up }
-  it 'tops up the balance by 10' do
-    subject.top_up(10)
-    expect(subject.balance).to eq 10
-  end
-  it 'tops up the balance by any given value' do
-    subject.top_up(10)
-    subject.top_up(20)
-    expect(subject.balance).to eq 30
-  end
-    
+
+    it { is_expected.to respond_to(:top_up).with(1).argument }
+
+    it 'can top up the balance by 10' do
+      expect{ subject.top_up(10) }.to change{ subject.balance }.by 10
+    end
+
+    it 'tops up the balance twice' do
+      subject.top_up(10)
+      subject.top_up(20)
+      expect(subject.balance).to eq 30
+    end
+
+    it 'raises an error when new balance exceeds £90' do
+      subject.top_up(80)
+      expect { subject.top_up(20) }.to raise_error 'You have exceeded the £90 limit'
+    end
+
 
 
   end
