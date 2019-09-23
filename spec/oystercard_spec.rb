@@ -52,8 +52,13 @@ describe Oystercard do
       it { is_expected.to respond_to :touch_in }
 
       it 'recognises that the card has touched in and in journey' do
+        subject.top_up(20)
         subject.touch_in
         expect(subject.in_journey?).to eq true
+      end
+
+      it 'raises error if balance is <£1' do
+        expect { subject.touch_in }.to raise_error "Your balance is below the minimum amount £#{MIN_BALANCE}"
       end
 
     end
@@ -63,6 +68,7 @@ describe Oystercard do
       it { is_expected.to respond_to :touch_out }
 
       it 'recognises that the card has touched out and is not in journey' do
+        subject.top_up(20)
         subject.touch_in
         subject.touch_out
         expect(subject.in_journey?).to eq false
